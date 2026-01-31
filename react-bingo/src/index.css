@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+.modal-overlay {
+  @apply fixed inset-0 bg-black/70 flex justify-center items-center;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+
+.modal-content {
+  @apply bg-white rounded-xl p-6 w-[28rem] shadow-xl;
+  opacity: 0;
+  transform: scale(0.9) translateY(10px);
+  transition: all 250ms ease;
+  outline: none;
+}
+
+.ReactModal__Content--after-open {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.ReactModal__Content--before-close {
+  opacity: 0;
+  transform: scale(0.9) translateY(10px);
+}
