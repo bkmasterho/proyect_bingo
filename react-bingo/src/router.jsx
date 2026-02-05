@@ -1,7 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom'
 import FormCompraCartones from './views/FormCompraCartones';
 import Layout from "./layouts/Layout";
-import Inicio from './views/Inicio'
+import Inicio from './views/Inicio';
+import Botonsito from './views/Botonsito';
 
 const router = createBrowserRouter ([
 
@@ -18,10 +19,15 @@ const router = createBrowserRouter ([
             {
                 path: 'comprarCartones',
                 element: <FormCompraCartones />
-            }
+            },
 
         ]
     },
+
+    {
+       path:'/Botonsito',
+       element: <Botonsito />,
+    }
 ])
 
 

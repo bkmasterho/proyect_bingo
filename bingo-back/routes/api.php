@@ -12,5 +12,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::apiResource('compradores', CompradorController::class);
-Route::apiResource('cartones', CartonController::class);
+Route::apiResource('/compradores', CompradorController::class);
+Route::apiResource('/cartones', CartonController::class);

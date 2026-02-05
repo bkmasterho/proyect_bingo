@@ -19,7 +19,9 @@ class CompradorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return [
+            'exito' => 'saludo recibido!!',
+        ];
     }
 
     /**
