@@ -14,8 +14,6 @@ class Carton extends Model
     protected $fillable = [
         'comprador_id',
         'numero_carton',
-        'imagen_url',
-        'disponible'
     ];
 
 

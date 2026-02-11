@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompradorRequest;
+use App\Http\Resources\CompradorResource;
+use App\Models\Comprador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class CompradorController extends Controller
 {
@@ -17,11 +22,47 @@ class CompradorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CompradorRequest $request)
     {
-        return [
-            'exito' => 'saludo recibido!!',
-        ];
+
+        $data = $request->validated();
+
+        DB::beginTransaction();
+
+        try {
+            
+            // Crear comprador
+            $comprador = Comprador::create([
+                'nombre' => $data['nombre'],
+                'apellido' => 'prueba',
+                'cedula' => '589856',
+                'email' => 'prueba@gmail.com',
+                'telefono' => $data['telefono'],
+            ]);
+
+            // Adaptar cartones al esquema de la BD
+           $cartones = collect($data['cartones'])->map(function ($numero) {
+                return [
+                    'numero_carton' => $numero,
+                ];
+            })->toArray();
+
+            // Guardar cartones relacionados
+            $comprador->cartones()->createMany($cartones);
+
+            DB::commit();
+
+            // Respuesta formateada
+            return new CompradorResource(
+                $comprador->load('cartones') //Carga el modelo de cartones y en rource lo traigo.
+            );
+
+
+        } catch (\Throwable $e) {
+             DB::rollBack();
+             throw $e; // deja que Laravel maneje el error
+        }
+
     }
 
     /**

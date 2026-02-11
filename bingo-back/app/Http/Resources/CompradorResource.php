@@ -14,6 +14,16 @@ class CompradorResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'nombre' => $this->nombre,
+            'telefono' => $this->telefono,
+
+            'cartones' => CartonResource::collection(
+                $this->whenLoaded('cartones')
+            ),
+
+            'created_at' => $this->created_at,
+        ];
     }
 }

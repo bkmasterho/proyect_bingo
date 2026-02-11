@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import useBingo from "../../hooks/useBingo";
 import ModalCarton from "react-modal";
@@ -7,34 +7,44 @@ import Modal from "../../Components/Modal";
 
 export default function CompraCarton2() {
 
-  const { register, formState: { errors } } = useFormContext();
+  const { register, setValue, getValues, clearErrors, formState: { errors } } = useFormContext();
   const { arrCartones, setArrCartones } = useBingo();
   const [ modalAbierto, setModalAbierto ] = useState(false);
 
-
+  
   const cartonsSeleccion = (valor) => {
 
-    setArrCartones( prev => {
+    const cantidadCartones = getValues("cantidadCartones");
+  
+    console.log("cantidadCartones2", cantidadCartones)
 
-        //Si ya existe el valor en mi array le lanzo un filtrar para eliminarlo
-        if (prev.includes(valor)) {
-          return prev.filter(num => num !== valor);
-        }
+     setArrCartones(prev => {
 
-        // Si no está → agregarlo
-        return [...prev, valor];
+      const nuevoArray = prev.includes(valor)
+        ? prev.filter(num => num !== valor)
+        : [...prev, valor];
+
+      //Guardo en mi RH
+      setValue("cartones", nuevoArray, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+
+      // Limpiar error si la selección ya coincide
+      if (nuevoArray.length === cantidadCartones) {
+        clearErrors("cartones");
+      }
+
+      //Regreso mi array que se va guardar en arrCartones
+      return nuevoArray;
     });
 
   }
-
-  console.log("arrayCartones", arrCartones)
 
   let arrNums=[]
   for(let i=0; i<400; i++){
       arrNums.push(i)
   }
-  
-  console.log("arNumns",arrNums);
 
   return (
     <>
@@ -88,24 +98,11 @@ export default function CompraCarton2() {
             </ModalCarton>
         }
 
-
-      {
-            /*
-              <h2>Paso 2: Dirección</h2>
-
-              <div>
-                <label>País</label>
-                <input {...register("pais")} />
-                {errors.pais && <p>{errors.pais.message}</p>}
-              </div>
-
-              <div>
-                <label>Ciudad</label>
-                <input {...register("ciudad")} />
-                {errors.ciudad && <p>{errors.ciudad.message}</p>}
-              </div>
-            */
-        }
+            {errors.cartones && (
+              <p className="text-red-600 text-sm mt-2 mx-auto">
+                {errors.cartones.message}
+              </p>
+            )}
 
 
     </>

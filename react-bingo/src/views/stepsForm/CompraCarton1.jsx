@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import useBingo from "../../hooks/useBingo";
 
@@ -8,27 +8,32 @@ export default function CompraCarton1() {
 
   const costoCarton=250;
 
-  const { register, formState: { errors } } = useFormContext();
-  const { cantCartones, setCantCartones } = useBingo();
-  const [ totalCostoCartones, setTotalCostoCartones ] = useState(costoCarton)
+  const { register, setValue, watch, formState: { errors } } = useFormContext();
+  const { setCantCartones } = useBingo();
+  //const [ totalCostoCartones, setTotalCostoCartones ] = useState(costoCarton)
+
+  // Cantidad cartones viendo con RHF
+  const cantidadCartones = watch("cantidadCartones") || 0;
 
   const sumarCarton = () => {
-    if(cantCartones >= 100) return;
-    setCantCartones(cantCartones+1);
+    if(cantidadCartones >= 100) return;
+    setValue("cantidadCartones", cantidadCartones + 1, { shouldValidate: true });
   }
 
   const restarCarton = () => {
-    setCantCartones(prev => Math.max(prev - 1, 0));
+    setValue("cantidadCartones", Math.max(cantidadCartones - 1, 0), { shouldValidate: true });
   }
 
+  const totalCostoCartones = useMemo(() => costoCarton * cantidadCartones, [cantidadCartones]);
  
-  //Cada vez que cambie la cantidad de cartones multiplico el costo total
+
+  //Sincronizo RHF con el hook global de Cantidad Cartones
+
   useEffect(() => {
-      setTotalCostoCartones(costoCarton * cantCartones);
-  }, [cantCartones]);
+    setCantCartones(cantidadCartones);
+  }, [cantidadCartones, setCantCartones]); //el setCantCartones solo se pasa por reglas de react
 
-
-  console.log("CantCarton", cantCartones);
+  console.log("CantCarton", cantidadCartones);
 
   return (
 
@@ -48,34 +53,36 @@ export default function CompraCarton1() {
                         type="button"
                         className="px-3 py-2 bg-slate-200 rounded-md hover:bg-slate-300"
                         onClick={() => {
-                            sumarCarton();
-                        }}
-                    >                      
-                      +
-                  </button>
-
-                  <input
-                      type="number"
-                      className="w-16 text-center border border-slate-300 rounded-md py-2"
-                      value={cantCartones}
-                      onChange={(e) => {
-                            const value = Number(e.target.value)
-                            setCantCartones(value < 0 ? 0 : value)
-                        }   
-                      }
-                        
-                    />
-
-                  <button 
-                        type="button"
-                        className="px-3 py-2 bg-slate-200 rounded-md hover:bg-slate-300"
-                        onClick={() => {
                             restarCarton();
                         }}                    
                     >
                       -
                   </button>
-              </div>
+
+                  <input
+
+                      type="number"
+                      name='cantidadCartones'
+                      className="w-16 text-center border border-slate-300 rounded-md py-2"
+                       {...register("cantidadCartones", { required: true, min: 1 })}
+                    />
+
+                    <button 
+                        type="button"
+                        className="px-3 py-2 bg-slate-200 rounded-md hover:bg-slate-300"
+                        onClick={() => {
+                            sumarCarton();
+                        }}
+                    >                      
+                      +
+                    </button>
+                </div>
+
+                {errors.cantidadCartones && (
+                    <p className="text-red-600 text-sm text-center mt-1">
+                        Debes seleccionar al menos un cartón
+                    </p>
+                )}
 
               <div className="text-center mt-5">
                   <p className="p-2">Total a pagar:</p>
@@ -86,49 +93,33 @@ export default function CompraCarton1() {
                   <div>
                       <label className="block mb-1 font-medium text-slate-700">Nombre</label>
                       <input 
+                          {...register("nombre", { required: "Nombre obligatorio" })}
+                          name='nombre'
                           type="text"
                           className="w-full px-3 py-2 rounded-lg shadow-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                       />
+
+                      {errors.nombre && (
+                        <p className="text-red-600 text-sm mt-1">{errors.nombre.message}</p>
+                      )}
                   </div>
 
                   <div>
                       <label className="block mb-1 font-medium text-slate-700">Teléfono</label>
                       <input 
-                          type="tel"
+                          {...register("telefono", { required: "Telefono Obligatorio" })}
+                          name='telefono'
+                          type="number"
                           className="w-full px-3 py-2 rounded-lg shadow-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                       />
+                      {errors.telefono && (
+                          <p className="text-red-600 text-sm mt-1">{errors.telefono.message}</p>
+                       )}
                   </div>
 
                     
               </div>
           </div>
-
-          {
-            
-            /*
-
-            <button 
-                className="w-full py-3 bg-sky-500 text-white font-bold rounded-lg hover:bg-sky-600 transition">
-                Comprar Cartones
-            </button>
-
-
-            <h2>Paso 1: Información personal</h2>
-
-            <div>
-              <label>Nombre</label>
-              <input {...register("nombre")} />
-              {errors.nombre && <p>{errors.nombre.message}</p>}
-            </div>
-
-            <div>
-              <label>Email</label>
-              <input {...register("email")} />
-              {errors.email && <p>{errors.email.message}</p>}
-            </div>
-            */
-
-          }
       
       </>
   );
