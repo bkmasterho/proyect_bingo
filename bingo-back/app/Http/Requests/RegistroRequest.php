@@ -11,7 +11,7 @@ class RegistroRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,20 @@ class RegistroRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required','string'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name' => 'El Nombre es obligatorio',
+            'email.required' => 'El email es obligatorio',
+            'email.email' => 'El email no es valido',
+            'email.unique' => 'El usuario ya esta registrado',
+            'password' => 'El password es requerido',
         ];
     }
 }

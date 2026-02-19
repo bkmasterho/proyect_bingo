@@ -1,8 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom'
 import FormCompraCartones from './views/FormCompraCartones';
 import Layout from "./layouts/Layout";
+import AuthLayout from "./layouts/AuthLayout";
 import Inicio from './views/Inicio';
+import Login from './views/Login';
+import Registro from './views/Registro';
 import Botonsito from './views/Botonsito';
+import Compras from './views/Compras';
+import Cartones from './views/Cartones';
+import AdminLayout from './layouts/AdminLayout';
 
 const router = createBrowserRouter ([
 
@@ -42,6 +48,20 @@ const router = createBrowserRouter ([
     {
        path:'/Botonsito',
        element: <Botonsito />,
+    },
+    {
+        path:'/admin',
+        element:<AdminLayout/>,
+        children:[
+            {   
+                index:true,
+                element:<Compras/>
+            },
+            {
+                path:'/admin/Cartones',
+                element:<Cartones/>
+            }
+        ]
     }
 ])
 

@@ -18,6 +18,7 @@
     "react-hook-form": "^7.66.1",
     "react-modal": "^3.16.3",
     "react-router-dom": "^7.9.6",
+    "swr": "^2.4.0",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {

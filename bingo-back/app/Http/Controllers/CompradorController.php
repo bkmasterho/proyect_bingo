@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CompradorRequest;
 use App\Http\Resources\CompradorResource;
+use App\Http\Resources\CompradorCollection;
 use App\Models\Comprador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,9 +15,13 @@ class CompradorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $compradores = Comprador::select('id', 'nombre', 'telefono', 'cedula')
+            ->groupBy('cedula')
+            ->get();
+
+        return new CompradorCollection($compradores);
     }
 
     /**
@@ -32,6 +37,9 @@ class CompradorController extends Controller
         try {
             
             // Crear comprador
+
+            //Adaptar esto los nuevos modelos Comprador, Compra, Carton
+
             $comprador = Comprador::create([
                 'nombre' => $data['nombre'],
                 'apellido' => 'prueba',

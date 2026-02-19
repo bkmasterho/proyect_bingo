@@ -1,8 +1,10 @@
 import React from 'react'
 import { sendRequest } from '../helpers/bingoServices'
+import { useAuth } from '../hooks/useAuth';
 
 export default function Botonsito() {
 
+ 
  const botonPrueba = async () => {
     try {
       const formData = { saludo: 'hola' }

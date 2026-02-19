@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Comprador;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Compra;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Carton extends Model
 {
@@ -12,14 +12,14 @@ class Carton extends Model
     use HasFactory;
 
     protected $fillable = [
-        'comprador_id',
+        'compra_id',
         'numero_carton',
     ];
 
 
-    public function comprador()
+    public function compra()
     {
-        return $this->belongsTo(Comprador::class); // Cada cartón pertenece a un comprador
+        return $this->belongsTo(Compra::class);
     }
 
 }

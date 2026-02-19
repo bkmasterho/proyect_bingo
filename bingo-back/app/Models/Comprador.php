@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Carton;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Compra;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Comprador extends Model
 {
@@ -20,9 +20,8 @@ class Comprador extends Model
     ];
 
 
-    public function cartones()
+    public function compras()
     {
-        return $this->hasMany(Carton::class); // Un comprador tiene muchos cartones
+        return $this->hasMany(Compra::class);
     }
-
 }

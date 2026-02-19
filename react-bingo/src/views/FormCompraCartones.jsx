@@ -27,6 +27,7 @@ const stepFields = [
 export default function MultiStepForm() {
 
   const [step, setStep] = useState(0);
+  const [erroresBack, setErroresBack] = useState([]);
   const StepComponent = steps[step].component;
 
   const methods = useForm({
@@ -78,23 +79,30 @@ export default function MultiStepForm() {
       // Último paso → datos finales
       const camposForm = getValues();
       console.log("Datos finales del formulario:", camposForm);
-      
+
+
+      //Envio mi peticion en la misma function de sendRequest ya valido errores:
+
       try {
 
-            const data = await sendRequest({
-              endpoint: '/api/compradores',
-              data: camposForm,
-              method: 'post'
-            })
-      
-            console.log('Respuesta del backend:', data)
-      
-      } catch (error) {
-      
-            console.error('Error al enviar datos:', error)
-      }
+        const data = await sendRequest({
+          endpoint: '/api/compradores',
+          data: camposForm,
+          method: 'post'
+        })
 
-     
+        console.log(data)
+
+      } catch (error) {
+
+        if (error.status === 422) {
+          setErroresBack(error.errors)
+        } else {
+          console.error(error.message)
+        }
+
+      }
+  
       alert("Formulario completado ✔");
       // Aquí podrías enviar los datos al backend
   };
