@@ -78,7 +78,16 @@ export default function MultiStepForm() {
 
       // Último paso → datos finales
       const camposForm = getValues();
-      console.log("Datos finales del formulario:", camposForm);
+      const losDatos = {
+        ...getValues(),
+        sorteo_id: 1,
+        img_compra: 'comprobando',
+        apellido:'jesus',
+        email:'yisuin@gmail.com',
+        cedula:'15856987'
+      };
+
+      console.log("Datos finales del formulario:", losDatos);
 
 
       //Envio mi peticion en la misma function de sendRequest ya valido errores:
@@ -87,7 +96,7 @@ export default function MultiStepForm() {
 
         const data = await sendRequest({
           endpoint: '/api/compradores',
-          data: camposForm,
+          data: losDatos,
           method: 'post'
         })
 

@@ -23,8 +23,13 @@ class CompradorRequest extends FormRequest
     {
         return [
             'nombre' => 'required|max:255',
+            'cedula' => 'required|max:255',
             'telefono' => 'required|max:20',
+            'apellido' => 'nullable|max:255', // opcional
+            'email' => 'nullable|email|max:255', // opcional y con validación de email
+            'img_compra' => 'nullable|string|max:255', // opcional
             'cartones' => 'required|array|min:1',
+            'sorteo_id' => 'required', // obligatorio, debe existir en la tabla sorteos
         ];
     }
 }

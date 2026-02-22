@@ -2,26 +2,20 @@
 
 namespace App\Models;
 
-use App\Models\Compra;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comprador extends Model
+class Sorteo extends Model
 {
-    /** @use HasFactory<\Database\Factories\CompradorFactory> */
     use HasFactory;
-
-    protected $table = 'compradores';
 
     protected $fillable = [
         'nombre',
-        'apellido',
-        'cedula',
-        'telefono',
-        'email'
+        'fecha_inicio',
+        'fecha_fin',
     ];
 
-
+    // Un sorteo tiene muchas compras
     public function compras()
     {
         return $this->hasMany(Compra::class);

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CompradorRequest;
-use App\Http\Resources\CompradorResource;
 use App\Http\Resources\CompradorCollection;
+use App\Http\Resources\CompradorResource;
+use App\Models\Carton;
 use App\Models\Comprador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,49 +30,57 @@ class CompradorController extends Controller
      */
     public function store(CompradorRequest $request)
     {
-
         $data = $request->validated();
+        $sorteoId = $data['sorteo_id']; // id del sorteo que viene del request
 
         DB::beginTransaction();
 
         try {
-            
-            // Crear comprador
 
-            //Adaptar esto los nuevos modelos Comprador, Compra, Carton
+            // 1️⃣ Crear comprador si no existe por cedula o email
+            $comprador = Comprador::firstOrCreate(
+                ['cedula' => $data['cedula']], // condición de búsqueda
+                [
+                    'nombre' => $data['nombre'],
+                    'apellido' => $data['apellido'] ?? 'Sin apellido',
+                    'email' => $data['email'] ?? null,
+                    'telefono' => $data['telefono'] ?? null,
+                ]
+            );
 
-            $comprador = Comprador::create([
-                'nombre' => $data['nombre'],
-                'apellido' => 'prueba',
-                'cedula' => '589856',
-                'email' => 'prueba@gmail.com',
-                'telefono' => $data['telefono'],
+            // 2️⃣ Crear la compra asociada al sorteo
+            $compra = $comprador->compras()->create([
+                'sorteo_id' => $sorteoId,
+                'img_compra' => $data['img_compra'] ?? null,
+                'fecha' => now(),
             ]);
 
-            // Adaptar cartones al esquema de la BD
-           $cartones = collect($data['cartones'])->map(function ($numero) {
-                return [
-                    'numero_carton' => $numero,
-                ];
-            })->toArray();
 
-            // Guardar cartones relacionados
-            $comprador->cartones()->createMany($cartones);
+            //Saco los ID de cada carton para usarlos en la BD.
+            $cartonIds = Carton::whereIn('numero_carton', $data['cartones'])
+                ->pluck('id')
+                ->toArray();
+
+            $cartonesPivot = [];
+            foreach ($cartonIds as $cartonId) {
+                $cartonesPivot[$cartonId] = ['sorteo_id' => $sorteoId];
+            }
+
+            $compra->cartones()->attach($cartonesPivot);
 
             DB::commit();
 
-            // Respuesta formateada
+            // 4️⃣ Respuesta
             return new CompradorResource(
-                $comprador->load('cartones') //Carga el modelo de cartones y en rource lo traigo.
+                $comprador->load('compras.cartones')
             );
 
-
         } catch (\Throwable $e) {
-             DB::rollBack();
-             throw $e; // deja que Laravel maneje el error
+            DB::rollBack();
+            throw $e; // Laravel maneja el error
         }
-
     }
+    
 
     /**
      * Display the specified resource.
