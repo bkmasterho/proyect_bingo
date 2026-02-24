@@ -17,13 +17,21 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    
 });
 
+    // Compradores admin (CRUD completo) LUEGO MOVER DENTRO DE SANCTUM
+    Route::apiResource('/compradores', CompradorController::class)
+        ->only(['index','update', 'destroy']);
 
-Route::apiResource('/compradores', CompradorController::class);
-Route::apiResource('/cartones', CartonController::class);
+    // Compradores públicos (solo lectura)
+    Route::apiResource('/compradores', CompradorController::class)
+        ->only(['show','store']);
 
+    Route::apiResource('/cartones', CartonController::class);
 
-//Autenticacion
-Route::post('/registro', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/compradores/{comprador}/compras', [CompradorController::class, 'compras']);
+
+    //Autenticacion
+    Route::post('/registro', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);

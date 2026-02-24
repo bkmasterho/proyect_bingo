@@ -1,49 +1,30 @@
-import useSWR from 'swr';
-import { useEffect } from 'react';
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 import { sendRequest } from '../helpers/bingoServices'
 
 export default function Compras() {
+  const { id } = useParams() // ID del comprador
 
-  /*
-  const fetcher = (endpoint) =>
-  sendRequest({
-    endpoint,
-    method: 'get'
-  });
-
-  const {
-    data: compradores,
-    error,
-    isLoading
-  } = useSWR('/api/compradores', fetcher);
-
-  if (isLoading) return <p>Cargando...</p>;
-  if (error) return <p>{error.message}</p>;
-
-  console.log(compradores);
-  */
- 
   useEffect(() => {
-    const testGetCompradores = async () => {
+    const fetchCompras = async () => {
       try {
         const data = await sendRequest({
-          endpoint: '/api/compradores',
-          method: 'get'
-        });
-
-        console.log('Respuesta API:', data);
+          endpoint: `/api/compradores/${id}/compras`,
+          method: 'get',
+        })
+        console.log('Respuesta API compras:', data)
       } catch (error) {
-        console.error('Error API:', error);
+        console.error('Error al traer compras:', error)
       }
-    };
+    }
 
-    testGetCompradores();
-  }, []);
-
+    fetchCompras()
+  }, [id])
 
   return (
     <div>
-        <h1>Compras</h1>
+      <h1>Compras del comprador #{id}</h1>
+      <p>Revisa la consola para ver la respuesta de la API.</p>
     </div>
   )
 }

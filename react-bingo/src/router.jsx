@@ -8,6 +8,7 @@ import Registro from './views/Registro';
 import Botonsito from './views/Botonsito';
 import Compras from './views/Compras';
 import Cartones from './views/Cartones';
+import Compradores from './views/Compradores';
 import AdminLayout from './layouts/AdminLayout';
 
 const router = createBrowserRouter ([
@@ -60,7 +61,16 @@ const router = createBrowserRouter ([
             {
                 path:'/admin/Cartones',
                 element:<Cartones/>
+            },
+            {
+                path:'/admin/Compradores',
+                element:<Compradores/>
+            },
+            {
+                path: '/admin/Compradores/:id/compras',
+                element: <Compras />
             }
+
         ]
     }
 ])

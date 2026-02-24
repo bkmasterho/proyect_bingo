@@ -17,6 +17,9 @@ class CompradorResource extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
+            'apellido' => $this->apellido,
+            'cedula' => $this->cedula,
+            'email' => $this->email,
             'telefono' => $this->telefono,
 
             'cartones' => CartonResource::collection(

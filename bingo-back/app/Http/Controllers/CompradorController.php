@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CompradorRequest;
 use App\Http\Resources\CompradorCollection;
 use App\Http\Resources\CompradorResource;
+use App\Http\Resources\CompraResource;
 use App\Models\Carton;
 use App\Models\Comprador;
 use Illuminate\Http\Request;
@@ -18,10 +19,7 @@ class CompradorController extends Controller
      */
     public function index(Request $request)
     {
-        $compradores = Comprador::select('id', 'nombre', 'telefono', 'cedula')
-            ->groupBy('cedula')
-            ->get();
-
+        $compradores = Comprador::all();
         return new CompradorCollection($compradores);
     }
 
@@ -105,4 +103,13 @@ class CompradorController extends Controller
     {
         //
     }
+
+
+    public function compras(Comprador $comprador)
+    {
+        // Eager load de cartones en cada compra
+        $comprador->load('compras.cartones');
+        return CompraResource::collection($comprador->compras);
+    }
+
 }

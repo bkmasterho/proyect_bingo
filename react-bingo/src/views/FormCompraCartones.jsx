@@ -84,7 +84,7 @@ export default function MultiStepForm() {
         img_compra: 'comprobando',
         apellido:'jesus',
         email:'yisuin@gmail.com',
-        cedula:'15856987'
+        cedula:'96847'
       };
 
       console.log("Datos finales del formulario:", losDatos);
