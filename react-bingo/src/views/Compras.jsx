@@ -1,30 +1,28 @@
-import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import { sendRequest } from '../helpers/bingoServices'
+import useSWR from "swr";
+import { sendRequest } from "../helpers/bingoServices";
+import CompraTable from "../Components/CompraTable"
+
+const fetcher = (endpoint) =>
+  sendRequest({
+    endpoint,
+    method: "get",
+  });
 
 export default function Compras() {
-  const { id } = useParams() // ID del comprador
+  const { data, error, isLoading } = useSWR("/api/compras", fetcher);
 
-  useEffect(() => {
-    const fetchCompras = async () => {
-      try {
-        const data = await sendRequest({
-          endpoint: `/api/compradores/${id}/compras`,
-          method: 'get',
-        })
-        console.log('Respuesta API compras:', data)
-      } catch (error) {
-        console.error('Error al traer compras:', error)
-      }
-    }
+  if (isLoading) return <p>Cargando...</p>;
+  if (error) return <p>Error cargando compras</p>;
 
-    fetchCompras()
-  }, [id])
+  const compras = data?.data ?? [];
+
+  console.log("las Compras", compras);
 
   return (
-    <div>
-      <h1>Compras del comprador #{id}</h1>
-      <p>Revisa la consola para ver la respuesta de la API.</p>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Listado de Compras</h1>
+
+      <CompraTable compras={compras} />
     </div>
-  )
+  );
 }

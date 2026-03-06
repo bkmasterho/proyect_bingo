@@ -10,6 +10,7 @@ import Compras from './views/Compras';
 import Cartones from './views/Cartones';
 import Compradores from './views/Compradores';
 import AdminLayout from './layouts/AdminLayout';
+import ComprasPorComprador from './views/ComprasPorComprador';
 
 const router = createBrowserRouter ([
 
@@ -68,7 +69,7 @@ const router = createBrowserRouter ([
             },
             {
                 path: '/admin/Compradores/:id/compras',
-                element: <Compras />
+                element: <ComprasPorComprador/>
             }
 
         ]

@@ -108,7 +108,11 @@ class CompradorController extends Controller
     public function compras(Comprador $comprador)
     {
         // Eager load de cartones en cada compra
-        $comprador->load('compras.cartones');
+        $comprador->load([
+            'compras.cartones',
+            'compras.comprador'
+        ]);
+
         return CompraResource::collection($comprador->compras);
     }
 

@@ -13,6 +13,12 @@ class CompraResource extends JsonResource
                 'id' => $this->id,
                 'img_compra' => $this->img_compra,
                 'fecha' => $this->created_at,
+                'comprador' => [
+                    'id' => $this->comprador->id,
+                    'nombre' => $this->comprador->nombre,
+                    'apellido' => $this->comprador->apellido,
+                    'cedula' => $this->comprador->cedula,
+                ],
                 'cartones' => $this->cartones->map(function($carton) {
                     return [
                         'id' => $carton->id,

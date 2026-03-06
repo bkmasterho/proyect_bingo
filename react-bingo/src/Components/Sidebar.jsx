@@ -7,7 +7,6 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-
   return (
     <>
 
@@ -78,4 +77,5 @@ export default function Sidebar() {
       </header>
     </>
   )
+
 }
