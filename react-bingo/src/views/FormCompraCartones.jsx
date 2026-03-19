@@ -19,7 +19,7 @@ const steps = [
 
 // Campos que se validan por paso
 const stepFields = [
-  ["nombre", "telefono", "cantidadCartones"], // Paso 1
+  ["nombre", "apellido" ,"cedula" ,"telefono","cantidadCartones"], // Paso 1
   ["cartones"],                                // Paso 2
   //["metodo_pago"],                             // Paso 3
 ];
@@ -36,6 +36,8 @@ export default function MultiStepForm() {
         cantidadCartones: 1,
         nombre: "",
         telefono: "",
+        apellido: "",
+        cedula: "",
         cartones: [],
         metodo_pago: "",
       },
@@ -77,18 +79,33 @@ export default function MultiStepForm() {
       }
 
       // Último paso → datos finales
+
       const camposForm = getValues();
-      const losDatos = {
-        ...getValues(),
-        sorteo_id: 1,
-        img_compra: 'comprobando',
-        apellido:'jesus',
-        email:'yisuin@gmail.com',
-        cedula:'96847'
-      };
 
-      console.log("Datos finales del formulario:", losDatos);
+      console.log("Datos finales del formulario:", camposForm);
 
+      const formData = new FormData();
+
+      Object.entries(camposForm).forEach(([key, value]) => {
+
+        // Si es archivo
+        if (key === "img_compra" && value?.[0]) {
+          formData.append(key, value[0]);
+        }
+
+        // Si es array (ej: cartones)
+        else if (Array.isArray(value)) {
+          value.forEach((item, index) => {
+            formData.append(`${key}[${index}]`, item);
+          });
+        }
+
+        // Campos normales
+        else {
+          formData.append(key, value ?? "");
+        }
+
+      });
 
       //Envio mi peticion en la misma function de sendRequest ya valido errores:
 
@@ -96,8 +113,8 @@ export default function MultiStepForm() {
 
         const data = await sendRequest({
           endpoint: '/api/compradores',
-          data: losDatos,
-          method: 'post'
+          data: formData,
+          method: 'post',
         })
 
         console.log(data)
@@ -125,7 +142,6 @@ export default function MultiStepForm() {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmitStep)} className="pt-24">
 
-        
         <StepComponent />
 
             <div className="flex max-w-2xl mx-auto mt-10">
@@ -143,7 +159,6 @@ export default function MultiStepForm() {
                   className="w-50 py-3 bg-sky-500 text-white font-bold rounded-lg hover:bg-sky-600 transition cursor-pointer ml-auto">
                   {step === steps.length - 1 ? "Finalizar" : "Siguiente"}
                 </button>
-
 
             </div>
 

@@ -7,6 +7,7 @@ const BingoProvider = ({children}) => {
   const [ modal, setModal ] = useState(false);
   const [ cantCartones, setCantCartones ] = useState(0);
   const [ arrCartones, setArrCartones] = useState([]);
+  const [ totalCostoCartones, setTotalCostoCartones ] = useState(0)
 
   return (
         <BingoContext.Provider
@@ -14,7 +15,9 @@ const BingoProvider = ({children}) => {
                 cantCartones,
                 setCantCartones,
                 arrCartones,
-                setArrCartones
+                setArrCartones,
+                totalCostoCartones,
+                setTotalCostoCartones
             }}
         >{children}</BingoContext.Provider>
   )
