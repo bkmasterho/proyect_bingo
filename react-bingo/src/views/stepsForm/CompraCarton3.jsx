@@ -6,9 +6,7 @@ export default function CompraCarton3() {
   const { arrCartones, setArrCartones, totalCostoCartones } = useBingo();
   const { register, watch } = useFormContext();
   const imagen = watch("img_compra");
-
-  console.log("arCartones", arrCartones)
-
+  
   return (
     <>
       <div className="max-w-2xl mx-auto rounded-xl shadow-md h-150 overflow-y-auto">

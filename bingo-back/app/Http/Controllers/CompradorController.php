@@ -29,32 +29,40 @@ class CompradorController extends Controller
     public function store(CompradorRequest $request)
     {
         $data = $request->validated();
-        $sorteoId = $data['sorteo_id']; // id del sorteo que viene del request
+        $sorteoId = 1;
 
         DB::beginTransaction();
 
         try {
-
-            // 1️⃣ Crear comprador si no existe por cedula o email
+            // 1️⃣ Crear comprador
             $comprador = Comprador::firstOrCreate(
-                ['cedula' => $data['cedula']], // condición de búsqueda
+                ['cedula' => $data['cedula']],
                 [
                     'nombre' => $data['nombre'],
                     'apellido' => $data['apellido'] ?? 'Sin apellido',
-                    'email' => $data['email'] ?? null,
                     'telefono' => $data['telefono'] ?? null,
                 ]
             );
 
-            // 2️⃣ Crear la compra asociada al sorteo
+            // 2️⃣ Crear compra sin imagen primero
             $compra = $comprador->compras()->create([
                 'sorteo_id' => $sorteoId,
-                'img_compra' => $data['img_compra'] ?? null,
                 'fecha' => now(),
             ]);
 
+            // 3️⃣ Subir archivo con nombre cedula_idcompra
+            if ($request->hasFile('img_compra')) {
+                $extension = $request->file('img_compra')->getClientOriginalExtension();
+                $nombreArchivo = $comprador->cedula . '_' . $compra->id . '.' . $extension;
 
-            //Saco los ID de cada carton para usarlos en la BD.
+                $rutaArchivo = $request->file('img_compra')
+                    ->storeAs('comprobantes', $nombreArchivo, 'public');
+
+                // Actualizar la compra con la ruta del archivo
+                $compra->update(['img_compra' => $rutaArchivo]);
+            }
+
+            // 4️⃣ Asociar cartones
             $cartonIds = Carton::whereIn('numero_carton', $data['cartones'])
                 ->pluck('id')
                 ->toArray();
@@ -64,18 +72,25 @@ class CompradorController extends Controller
                 $cartonesPivot[$cartonId] = ['sorteo_id' => $sorteoId];
             }
 
-            $compra->cartones()->attach($cartonesPivot);
+            if (!empty($cartonesPivot)) {
+                $compra->cartones()->attach($cartonesPivot);
+            }
 
             DB::commit();
 
-            // 4️⃣ Respuesta
             return new CompradorResource(
                 $comprador->load('compras.cartones')
             );
 
         } catch (\Throwable $e) {
             DB::rollBack();
-            throw $e; // Laravel maneja el error
+
+            // 5️⃣ Borrar archivo si algo falla
+            if (isset($rutaArchivo) && file_exists(storage_path('app/public/' . $rutaArchivo))) {
+                unlink(storage_path('app/public/' . $rutaArchivo));
+            }
+
+            throw $e;
         }
     }
     

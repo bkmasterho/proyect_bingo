@@ -26,10 +26,9 @@ class CompradorRequest extends FormRequest
             'cedula' => 'required|max:255',
             'telefono' => 'required|max:20',
             'apellido' => 'nullable|max:255', // opcional
-            'email' => 'nullable|email|max:255', // opcional y con validación de email
-            'img_compra' => 'nullable|string|max:255', // opcional
+            //'email' => 'nullable|email|max:255', // opcional y con validación de email
+            'img_compra'    => 'required|image|mimes:jpg,jpeg,png|max:2048', // validando imagen
             'cartones' => 'required|array|min:1',
-            'sorteo_id' => 'required', // obligatorio, debe existir en la tabla sorteos
         ];
     }
 }

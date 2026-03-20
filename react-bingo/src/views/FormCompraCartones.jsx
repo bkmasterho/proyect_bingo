@@ -39,7 +39,7 @@ export default function MultiStepForm() {
         apellido: "",
         cedula: "",
         cartones: [],
-        metodo_pago: "",
+        img_compra:""
       },
   })
 
@@ -78,57 +78,56 @@ export default function MultiStepForm() {
         return;
       }
 
-      // Último paso → datos finales
-
+      //Uso Watch para capturar mejor el campo imagen
+      const imagen = watch("img_compra");
       const camposForm = getValues();
-
-      console.log("Datos finales del formulario:", camposForm);
-
       const formData = new FormData();
 
+      if (imagen?.[0]) {
+        formData.append("img_compra", imagen[0]);
+      }
+
+      // resto de campos
       Object.entries(camposForm).forEach(([key, value]) => {
 
-        // Si es archivo
-        if (key === "img_compra" && value?.[0]) {
-          formData.append(key, value[0]);
-        }
+        if (key === "img_compra") return;
 
-        // Si es array (ej: cartones)
-        else if (Array.isArray(value)) {
-          value.forEach((item, index) => {
-            formData.append(`${key}[${index}]`, item);
-          });
-        }
-
-        // Campos normales
-        else {
+        if (Array.isArray(value)) {
+            value.forEach((item, index) => {
+              formData.append(`${key}[${index}]`, item);
+            });
+        } else {
           formData.append(key, value ?? "");
         }
-
       });
 
+      //Debugueando FormData
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
       //Envio mi peticion en la misma function de sendRequest ya valido errores:
+      
+        try {
 
-      try {
+          const data = await sendRequest({
+            endpoint: '/api/compradores',
+            data: formData,
+            method: 'post',
+          })
 
-        const data = await sendRequest({
-          endpoint: '/api/compradores',
-          data: formData,
-          method: 'post',
-        })
+          console.log(data)
 
-        console.log(data)
+        } catch (error) {
 
-      } catch (error) {
+          if (error.status === 422) {
+            setErroresBack(error.errors)
+          } else {
+            console.error(error.message)
+          }
 
-        if (error.status === 422) {
-          setErroresBack(error.errors)
-        } else {
-          console.error(error.message)
         }
 
-      }
-  
       alert("Formulario completado ✔");
       // Aquí podrías enviar los datos al backend
   };

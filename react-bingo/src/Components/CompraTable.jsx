@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CartonesModal from "./CartonesModal";
+import ImagenModal from "./ImagenModal"; // Ajusta la ruta según tu proyecto
 
 export default function CompraTable({ compras }) {
   const columnas = [
@@ -12,6 +13,15 @@ export default function CompraTable({ compras }) {
   // estado para modal
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCartones, setSelectedCartones] = useState([]);
+
+  //State para el modal de imagen
+  const [modalOpenImagen, setModalOpenImagen] = useState(false);
+  const [imagenSeleccionada, setImagenSeleccionada] = useState("");
+
+  const abrirModalImagen = (src) => {
+    setImagenSeleccionada(src);
+    setModalOpenImagen(true);
+  };
 
   const handleRowClick = (compra) => {
     setSelectedCartones(compra.cartones ?? []);
@@ -52,18 +62,25 @@ export default function CompraTable({ compras }) {
                     ? new Date(compra.fecha).toLocaleDateString()
                     : "—"}
                 </td>
-                <td className="px-6 py-4">
-                  {compra.img_compra ? (
-                    <img
-                      src={compra.img_compra}
-                      alt="Comprobante"
-                      className="h-12 w-12 rounded object-cover"
-                    />
-                  ) : (
-                    "—"
-                  )}
-                </td>
-                <td className="px-6 py-4">
+
+                 <td className="px-6 py-4">
+                    {compra.img_compra ? (
+                      <img
+                        src={`${import.meta.env.VITE_API_URL}/storage/${compra.img_compra}`}
+                        alt="Comprobante"
+                        className="h-12 w-12 rounded object-cover cursor-pointer"
+                        onClick={() =>
+                          abrirModalImagen(
+                            `${import.meta.env.VITE_API_URL}/storage/${compra.img_compra}`
+                          )
+                        }
+                      />
+                    ) : (
+                      "—"
+                    )}
+                 </td>
+
+                  <td className="px-6 py-4">
                   <button
                     onClick={() => handleRowClick(compra)}
                     className="bg-sky-500 text-white px-3 py-1 rounded hover:bg-sky-700 text-sm"
@@ -77,12 +94,20 @@ export default function CompraTable({ compras }) {
         </table>
       </div>
 
-      {/* Modal de cartones */}
-      <CartonesModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        cartones={selectedCartones}
-      />
+        {/* Modal de cartones */}
+        <CartonesModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          cartones={selectedCartones}
+        />
+
+        {/* Modal Imagenes */}
+        <ImagenModal
+          isOpen={modalOpenImagen}
+          onClose={() => setModalOpenImagen(false)}
+          src={imagenSeleccionada}
+          alt="Comprobante"
+        />
     </>
   );
 }
