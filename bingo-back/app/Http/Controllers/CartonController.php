@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\CartonCollection;
+use App\Models\Carton;
+
 
 class CartonController extends Controller
 {
@@ -11,7 +14,8 @@ class CartonController extends Controller
      */
     public function index()
     {
-        //
+        $cartones = Carton::all();
+        return new CartonCollection($cartones);
     }
 
     /**

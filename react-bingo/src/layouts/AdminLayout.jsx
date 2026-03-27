@@ -8,7 +8,7 @@ export default function AuthAdmin() {
       <AdminSidebar />
 
       {/* Contenido */}
-      <main className="pt-16 min-h-screen bg-gray-50">
+      <main className="pt-12 min-h-screen bg-gray-50">
         <Outlet />
       </main>
     </>

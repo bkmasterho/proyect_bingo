@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 
 export default function CompraCarton3() {
 
-  const { arrCartones, setArrCartones, totalCostoCartones } = useBingo();
+  const { cartonesSelect, setcartonesSelect, totalCostoCartones } = useBingo();
   const { register, watch } = useFormContext();
   const imagen = watch("img_compra");
   
@@ -17,11 +17,10 @@ export default function CompraCarton3() {
 
         <h2 className="text-slate-900 font-bold uppercase text-center mt-5"> Cartones Seleccionados </h2>
 
-
         <div className="max-w-md mx-auto mt-6 rounded-xl shadow-lg p-4 h-40 overflow-y-auto bg-white">
 
             <div className="grid grid-cols-6 place-items-center gap-2">
-              {arrCartones.map((valor) => (
+              {cartonesSelect.map((valor) => (
                 <div
                   key={valor}
                   className={`w-10 h-10 flex items-center justify-center rounded-full 

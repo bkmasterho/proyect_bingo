@@ -5,7 +5,11 @@ export default function Layouts() {
   return (
     <>  
         <Sidebar/>
-        <Outlet />
+        
+        {/* Contenido */}
+        <main className="pt-20 min-h-screen bg-gray-50">
+          <Outlet />
+        </main>
     </>
   )
 }

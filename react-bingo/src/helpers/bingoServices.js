@@ -23,6 +23,21 @@ export const sendRequest = async ({ endpoint, data = null, method = 'post', head
         return response.data
         
     } catch (error) {
+
+        console.error("Errores de la Peticion");
+        console.error("Endpoint:", endpoint);
+        console.error("Method:", method);
+        console.error("Data:", data);
+
+        if (error.response) {
+            console.error("Response data:", error.response.data);
+            console.error("Status:", error.response.status);
+        } else if (error.request) {
+            console.error("No response received:", error.request);
+        } else {
+            console.error("Error config:", error.message);
+        }
+
         throw {
             message: error.response?.data?.message ?? 'Error inesperado',
             errors: error.response?.data?.errors ?? null,

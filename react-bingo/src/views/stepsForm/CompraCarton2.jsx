@@ -8,9 +8,8 @@ import Modal from "../../Components/Modal";
 export default function CompraCarton2() {
 
   const { register, setValue, getValues, clearErrors, formState: { errors } } = useFormContext();
-  const { arrCartones, setArrCartones } = useBingo();
+  const { cartonesSelect, setCartonesSelect } = useBingo();
   const [ modalAbierto, setModalAbierto ] = useState(false);
-
   
   const cartonsSeleccion = (valor) => {
 
@@ -18,7 +17,7 @@ export default function CompraCarton2() {
   
     console.log("cantidadCartones2", cantidadCartones)
 
-     setArrCartones(prev => {
+     setCartonesSelect(prev => {
 
       const nuevoArray = prev.includes(valor)
         ? prev.filter(num => num !== valor)
@@ -35,7 +34,7 @@ export default function CompraCarton2() {
         clearErrors("cartones");
       }
 
-      //Regreso mi array que se va guardar en arrCartones
+      //Regreso mi array que se va guardar en cartonesSelect
       return nuevoArray;
     });
 
@@ -57,7 +56,7 @@ export default function CompraCarton2() {
 
           <div className="grid grid-cols-4 place-items-center gap-2">
               {arrNums.map((valor, index) => {
-                  const estaSeleccionado = arrCartones.includes(valor);
+                  const estaSeleccionado = cartonesSelect.includes(valor);
 
                   return(
                     <div className="text-center" key={valor}>
@@ -98,13 +97,12 @@ export default function CompraCarton2() {
             </ModalCarton>
         }
 
-            {errors.cartones && (
-              <p className="text-red-600 text-sm mt-2 mx-auto">
-                {errors.cartones.message}
-              </p>
-            )}
-
-
+        {errors.cartones && (
+          <p className="text-red-600 text-sm mt-2 mx-auto">
+            {errors.cartones.message}
+          </p>
+        )}
+        
     </>
   );
 }

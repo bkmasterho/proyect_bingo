@@ -1,4 +1,3 @@
-import React from "react";
 import Modal from "react-modal";
 
 // IMPORTANTE: si no lo has hecho aún, debes setear el root para accesibilidad

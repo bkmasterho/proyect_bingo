@@ -40,9 +40,9 @@ export default function AdminSidebar() {
             />
             <NavItem
               label="Cartones"
-              path="/admin/Cartones"
+              path="/admin/CartonesAdmin"
               navigate={navigate}
-              active={isActive("/admin/Cartones")}
+              active={isActive("/admin/CartonesAdmin")}
             />
             <NavItem
               label="Compradores"
@@ -65,7 +65,7 @@ export default function AdminSidebar() {
       {isOpen && (
         <div className="md:hidden bg-gradient-to-r from-sky-600 to-sky-400 px-4 py-3 space-y-2">
           <MobileNavItem label="Compras" onClick={() => navigate("/admin")} />
-          <MobileNavItem label="Cartones" onClick={() => navigate("/admin/Cartones")} />
+          <MobileNavItem label="Cartones" onClick={() => navigate("/admin/CartonesAdmin")} />
           <MobileNavItem label="Compradores" onClick={() => navigate("/admin/Compradores")} />
         </div>
       )}

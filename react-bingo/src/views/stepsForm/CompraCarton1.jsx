@@ -33,13 +33,12 @@ export default function CompraCarton1() {
   }, [cantidadCartones, setCantCartones]); //el setCantCartones solo se pasa por reglas de react
 
   console.log("CantCarton", cantidadCartones);
-
+  
   return (
-
         <>
           <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
 
-              <div className="p-4 bg-sky-500 sticky top-0 z-10 mb-3">
+              <div className="p-4 bg-sky-500 mb-3">
                   <h2 className="text-2xl text-slate-900 font-bold uppercase text-center"> Compra tu carton </h2>
               </div>
 
@@ -145,10 +144,10 @@ export default function CompraCarton1() {
                        )}
                   </div>
 
-                    
               </div>
           </div>
       
       </>
   );
+
 }

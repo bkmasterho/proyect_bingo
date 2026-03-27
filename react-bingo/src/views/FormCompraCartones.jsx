@@ -21,7 +21,6 @@ const steps = [
 const stepFields = [
   ["nombre", "apellido" ,"cedula" ,"telefono","cantidadCartones"], // Paso 1
   ["cartones"],                                // Paso 2
-  //["metodo_pago"],                             // Paso 3
 ];
 
 export default function MultiStepForm() {
@@ -139,7 +138,7 @@ export default function MultiStepForm() {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmitStep)} className="pt-24">
+      <form onSubmit={methods.handleSubmit(onSubmitStep)}>
 
         <StepComponent />
 

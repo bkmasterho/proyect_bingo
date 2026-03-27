@@ -1,26 +1,43 @@
 import { createContext, useState } from "react";
-
 const BingoContext = createContext();
+import { useCartones } from '../hooks/useCartones';
 
-const BingoProvider = ({children}) => {
+const BingoProvider = ({children}) => { 
 
-  const [ modal, setModal ] = useState(false);
-  const [ cantCartones, setCantCartones ] = useState(0);
-  const [ arrCartones, setArrCartones] = useState([]);
-  const [ totalCostoCartones, setTotalCostoCartones ] = useState(0)
+    // Valores Hook Cartones
 
-  return (
-        <BingoContext.Provider
-            value={{
-                cantCartones,
-                setCantCartones,
-                arrCartones,
-                setArrCartones,
-                totalCostoCartones,
-                setTotalCostoCartones
-            }}
-        >{children}</BingoContext.Provider>
-  )
+    const {
+      cartones,
+      cartonesLoading,
+      cartonesError,
+      mutateCartones
+    } = useCartones()
+
+    console.log("Los Cartones", cartones)
+
+    const [ cantCartones, setCantCartones ] = useState(0);
+    const [ cartonesSelect, setCartonesSelect] = useState([]);
+    const [ totalCostoCartones, setTotalCostoCartones ] = useState(0)
+
+    return (
+          <BingoContext.Provider
+              value={{
+                  //Listado Cartones
+                  cartones,
+                  cartonesLoading,
+                  cartonesError,
+                  mutateCartones,
+
+                  //Valores Generales
+                  cantCartones,
+                  setCantCartones,
+                  cartonesSelect,
+                  setCartonesSelect,
+                  totalCostoCartones,
+                  setTotalCostoCartones
+              }}
+          >{children}</BingoContext.Provider>
+    )
 }
 
 export {

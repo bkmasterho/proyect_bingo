@@ -7,7 +7,8 @@ import Login from './views/Login';
 import Registro from './views/Registro';
 import Botonsito from './views/Botonsito';
 import Compras from './views/Compras';
-import Cartones from './views/Cartones';
+import CartonesListado from './views/CartonesListado';
+import CartonesAdmin from './views/CartonesAdmin';
 import Compradores from './views/Compradores';
 import AdminLayout from './layouts/AdminLayout';
 import ComprasPorComprador from './views/ComprasPorComprador';
@@ -27,6 +28,11 @@ const router = createBrowserRouter ([
             {
                 path: 'comprarCartones',
                 element: <FormCompraCartones />
+            },
+
+            {
+                path: 'cartonesListado',
+                element: <CartonesListado/>
             },
 
         ]
@@ -60,8 +66,8 @@ const router = createBrowserRouter ([
                 element:<Compras/>
             },
             {
-                path:'/admin/Cartones',
-                element:<Cartones/>
+                path:'/admin/CartonesAdmin',
+                element:<CartonesAdmin/>
             },
             {
                 path:'/admin/Compradores',
