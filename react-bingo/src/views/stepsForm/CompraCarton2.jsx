@@ -8,7 +8,7 @@ import Modal from "../../Components/Modal";
 export default function CompraCarton2() {
 
   const { register, setValue, getValues, clearErrors, formState: { errors } } = useFormContext();
-  const { cartonesSelect, setCartonesSelect } = useBingo();
+  const { cartonesSelect, setCartonesSelect, cartones } = useBingo();
   const [ modalAbierto, setModalAbierto ] = useState(false);
   
   const cartonsSeleccion = (valor) => {
@@ -40,69 +40,78 @@ export default function CompraCarton2() {
 
   }
 
-  let arrNums=[]
-  for(let i=0; i<400; i++){
-      arrNums.push(i)
-  }
-
   return (
     <>
-      
-      <div className="max-w-2xl mx-auto rounded-xl shadow-md h-150 overflow-y-auto">
-
-      <div className="p-4 bg-sky-500 sticky top-0 z-10 mb-3">
-            <h2 className="text-2xl text-slate-900 font-bold uppercase text-center"> Elige tu carton </h2>
-      </div>
-
-          <div className="grid grid-cols-4 place-items-center gap-2">
-              {arrNums.map((valor, index) => {
-                  const estaSeleccionado = cartonesSelect.includes(valor);
-
-                  return(
-                    <div className="text-center" key={valor}>
-                      <button
-                        type="button"
-                        className={`w-12 h-12 flex items-center justify-center rounded-full 
-                        shadow cursor-pointer text-white font-semibold transition 
-                        ${estaSeleccionado ? "bg-sky-900" : "bg-sky-500 hover:bg-sky-700"}`}
-
-                        onClick={() => cartonsSeleccion(valor)}
-                      >
-                        {valor}
-                      </button>
-
-                      <button 
-                        className=""
-                        type="button"
-                        onClick={() => setModalAbierto(true)}
-                      >
-                          Ver
-                      </button>
-                    </div>
-                  );
-              })}
+        <div className="max-w-3xl mx-auto bg-[#fcfcfc] rounded-2xl shadow-xl border border-black/10 h-150 overflow-y-auto">
+          {/* Header */}
+          <div className="bg-[#1a1b1f] px-6 py-6 text-center sticky top-0 z-10">
+            <p className="text-[#f6bd0b] text-[10px] tracking-[3px] uppercase mb-1">
+              Lotería / Bingo
+            </p>
+            <h2 className="text-[#fcfcfc] text-2xl font-bold tracking-wide">
+              Elige tu cartón
+            </h2>
+            <span className="block w-10 h-[3px] bg-[#f6bd0b] rounded-full mx-auto mt-3" />
           </div>
-          
+
+          {/* Grid de cartones */}
+          <div className="grid grid-cols-4 place-items-center gap-3 p-5">
+            {cartones.data.map((valor, index) => {
+
+              let numeroCarton=valor.numero_carton;
+
+              const estaSeleccionado = cartonesSelect.includes(numeroCarton);
+
+              return (
+                <div className="text-center" key={numeroCarton}>
+                  <button
+                    type="button"
+                    className={`w-14 h-14 flex items-center justify-center rounded-full
+                      font-bold text-sm transition-colors shadow-sm
+                      ${estaSeleccionado
+                        ? "bg-[#f6bd0b] text-[#1a1b1f]"
+                        : "bg-[#1a1b1f] text-[#fcfcfc] hover:bg-[#f6bd0b] hover:text-[#1a1b1f]"
+                      }`}
+                    onClick={() => cartonsSeleccion(numeroCarton)}
+                  >
+                    {numeroCarton}
+                  </button>
+
+                  <button
+                      className="mt-1 px-3 py-0.5 text-[10px] tracking-widest uppercase
+                                bg-[#1a1b1f] text-[#fcfcfc] rounded-full border border-[#1a1b1f]
+                                hover:bg-[#f6bd0b] hover:text-[#1a1b1f] hover:border-[#f6bd0b] transition-colors"
+                      type="button"
+                      onClick={() => setModalAbierto(true)}
+                  >
+                    Ver
+                  </button>
+                </div>
+              );
+
+            })}
+          </div>
+
         </div>
 
         {
-            <ModalCarton
-              isOpen={modalAbierto}
-              onRequestClose={() => setModalAbierto(false)}
-              className="modal-content"
-              overlayClassName="modal-overlay"
-              closeTimeoutMS={250}
-            >
-              <Modal onClose={() => setModalAbierto(false)} />
-            </ModalCarton>
+          <ModalCarton
+            isOpen={modalAbierto}
+            onRequestClose={() => setModalAbierto(false)}
+            className="modal-content"
+            overlayClassName="modal-overlay"
+            closeTimeoutMS={250}
+          >
+            <Modal onClose={() => setModalAbierto(false)} />
+          </ModalCarton>
         }
 
         {errors.cartones && (
-          <p className="text-red-600 text-sm mt-2 mx-auto">
+          <p className="text-red-500 text-xs mt-2 mx-auto text-center">
             {errors.cartones.message}
           </p>
         )}
-        
+      
     </>
   );
 }

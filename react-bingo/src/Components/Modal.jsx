@@ -2,17 +2,17 @@ import React from 'react'
 
 export default function Modal({onClose}) {
   return (
-
     <>
       <button
         onClick={onClose}
-        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+        className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center
+                   rounded-full bg-[#1a1b1f] border-2 border-[#f6bd0b] text-[#f6bd0b]
+                   font-bold text-sm hover:bg-[#f6bd0b] hover:text-[#1a1b1f] transition-colors"
       >
-        X
+        ✕
       </button>
-      
-      <h1>Holaaa</h1>
-    </>
 
+      <img src="" alt="" className="w-full h-full object-contain rounded-xl" />
+    </>
   )
 }

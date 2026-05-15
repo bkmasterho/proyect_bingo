@@ -1,7 +1,7 @@
 export default function CartonesListado() {
   return (
     <div>
-       <h1>CartonesAdmin</h1>
+       <h1>Listado de cartones</h1>
     </div>
   )
 }

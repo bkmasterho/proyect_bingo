@@ -29,6 +29,8 @@ use Illuminate\Support\Facades\Route;
         
     Route::get('/compradores/{comprador}/compras', [CompradorController::class, 'compras']);
 
+    Route::post('/compradores/buscar', [CompradorController::class, 'buscarPorCedula']); //Buscar X Cedula
+
     Route::apiResource('/compras', CompraController::class);
 
     Route::apiResource('/cartones', CartonController::class);

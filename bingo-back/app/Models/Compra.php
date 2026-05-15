@@ -35,7 +35,7 @@ class Compra extends Model
                     'carton_compra', 
                     'compra_id', 
                     'carton_id')
-                    ->using(CartonCompra::class)   // ⚡ Aquí le dices a Laravel usar el modelo pivot
+                    ->using(CartonCompra::class)   //Aquí le dices a Laravel usar el modelo pivot
                     ->withPivot('sorteo_id')
                     ->withTimestamps();
     }

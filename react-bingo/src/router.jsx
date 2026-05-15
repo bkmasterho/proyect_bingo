@@ -8,6 +8,8 @@ import Registro from './views/Registro';
 import Botonsito from './views/Botonsito';
 import Compras from './views/Compras';
 import CartonesListado from './views/CartonesListado';
+import ComprasListado from './views/ComprasListado';
+import GanadoresListado from './views/GanadoresListado';
 import CartonesAdmin from './views/CartonesAdmin';
 import Compradores from './views/Compradores';
 import AdminLayout from './layouts/AdminLayout';
@@ -33,6 +35,16 @@ const router = createBrowserRouter ([
             {
                 path: 'cartonesListado',
                 element: <CartonesListado/>
+            },
+
+            {
+                path: 'ganadoresListado',
+                element: <GanadoresListado/>
+            },
+
+            {
+                path: 'comprasListado',
+                element: <ComprasListado/>
             },
 
         ]

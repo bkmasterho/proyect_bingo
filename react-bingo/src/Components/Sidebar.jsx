@@ -17,10 +17,10 @@ export default function Sidebar() {
                {/* Logo */}
                 <div
                   className="flex-shrink-0 flex items-center cursor-pointer"
-                  onClick={() => navigate('/')}   // 👈 Redirección al hacer click
+                  onClick={() => navigate('/')} 
                 >
                   <img
-                    src="/img/logobingo.webp"            // 👈 Aquí pones tu imagen
+                    src="/img/logobingo.webp"
                     alt="Logo"
                     className="h-13 w-13 rounded-full object-cover"
                   />
@@ -31,27 +31,35 @@ export default function Sidebar() {
 
               {/* Menú desktop */}
               <nav className="hidden md:flex space-x-6">
-                <a className="text-white hover:text-sky-200 font-medium cursor-pointer transition-colors">
+
+                <a className="text-white hover:text-sky-200 font-medium cursor-pointer transition-colors"
+                  onClick={() => navigate('/cartonesListado')}
+                >
                   Cartones
                 </a>
-                <a className="text-white hover:text-sky-200 font-medium cursor-pointer transition-colors">
+
+                <a className="text-white hover:text-sky-200 font-medium cursor-pointer transition-colors"
+                  onClick={() => navigate('/ganadoresListado')}
+                >
                   Ganadores
                 </a>
+
                 <a className="text-white hover:text-sky-200 font-medium cursor-pointer transition-colors">
                   Soporte
                 </a>
 
-                <a className="text-white hover:text-sky-200 font-medium cursor-pointer transition-colors">
+                <a className="text-white hover:text-sky-200 font-medium cursor-pointer transition-colors"
+                  onClick={() => navigate('/comprasListado')}
+                >
                   Compras
                 </a>
+
               </nav>
 
               {/* Botón hamburguesa móvil */}
               <div className="md:hidden flex items-center">
                 <button onClick={() => setIsOpen(!isOpen)} className="text-white">
-
                   {isOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
-
                 </button>
               </div>
             </div>
@@ -61,16 +69,16 @@ export default function Sidebar() {
           {isOpen && (
             <div className="md:hidden bg-gradient-to-r from-sky-600 to-sky-400 w-full flex flex-col p-4 space-y-2">
               <a className="py-2 text-white hover:text-sky-200 font-medium border-b border-sky-500 transition-colors">
-                Dashboard
+                Cartones
               </a>
               <a className="py-2 text-white hover:text-sky-200 font-medium border-b border-sky-500 transition-colors">
-                Usuarios
+                Ganadores
               </a>
               <a className="py-2 text-white hover:text-sky-200 font-medium border-b border-sky-500 transition-colors">
-                Reportes
+                Soporte
               </a>
               <a className="py-2 text-white hover:text-sky-200 font-medium transition-colors">
-                Configuración
+                Compras
               </a>
             </div>
           )}

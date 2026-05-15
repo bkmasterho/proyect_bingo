@@ -36,118 +36,132 @@ export default function CompraCarton1() {
   
   return (
         <>
-          <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+            <div className="max-w-3xl mx-auto bg-[#fcfcfc] rounded-2xl overflow-hidden shadow-xl border border-black/10">
 
-              <div className="p-4 bg-sky-500 mb-3">
-                  <h2 className="text-2xl text-slate-900 font-bold uppercase text-center"> Compra tu carton </h2>
-              </div>
+                {/* Header */}
+                <div className="bg-[#1a1b1f] px-6 py-6 text-center">
+                <p className="text-[#f6bd0b] text-[10px] tracking-[3px] uppercase mb-1">
+                    Lotería / Bingo
+                </p>
+                <h2 className="text-[#fcfcfc] text-2xl font-bold tracking-wide">
+                    Compra tu cartón
+                </h2>
+                <span className="block w-10 h-[3px] bg-[#f6bd0b] rounded-full mx-auto mt-3" />
+                </div>
 
-              <div className="m-5 font-bold text-center">
-                  ¿Cuantos cartones?
-              </div>   
-
-              <div className="flex gap-2 justify-center mx-auto">
-                  <button 
+                {/* Cantidad */}
+                <div className="bg-[#1a1b1f] mx-5 mt-5 rounded-xl p-5">
+                <p className="text-[#f6bd0b] text-[10px] tracking-[2px] uppercase text-center mb-4">
+                    ¿Cuántos cartones?
+                </p>
+                <div className="flex items-center justify-center gap-5">
+                    <button
                         type="button"
-                        className="px-3 py-2 bg-slate-200 rounded-md hover:bg-slate-300"
-                        onClick={() => {
-                            restarCarton();
-                        }}                    
+                        className="w-11 h-11 rounded-full border-2 border-[#f6bd0b] text-[#f6bd0b] text-2xl font-bold
+                                    flex items-center justify-center leading-none
+                                    hover:bg-[#f6bd0b] hover:text-[#1a1b1f] transition-colors"
+                        onClick={() => { restarCarton(); }}
                     >
-                      -
-                  </button>
+                    −
+                    </button>
 
-                  <input
-
-                      type="number"
-                      name='cantidadCartones'
-                      className="w-16 text-center border border-slate-300 rounded-md py-2"
-                       {...register("cantidadCartones", { required: true, min: 1 })}
+                    <input
+                        type="number"
+                        name="cantidadCartones"
+                        className="w-16 text-center text-[#fcfcfc] bg-transparent text-4xl font-bold border-none outline-none"
+                        {...register("cantidadCartones", { required: true, min: 1 })}
                     />
 
-                    <button 
+                    <button
                         type="button"
-                        className="px-3 py-2 bg-slate-200 rounded-md hover:bg-slate-300"
-                        onClick={() => {
-                            sumarCarton();
-                        }}
-                    >                      
-                      +
+                        className="w-11 h-11 rounded-full border-2 border-[#f6bd0b] text-[#f6bd0b] text-2xl font-bold
+                                    flex items-center justify-center leading-none
+                                    hover:bg-[#f6bd0b] hover:text-[#1a1b1f] transition-colors"
+                        onClick={() => { sumarCarton(); }}
+                    >
+                    +
                     </button>
+                </div>
                 </div>
 
                 {errors.cantidadCartones && (
-                    <p className="text-red-600 text-sm text-center mt-1">
-                        Debes seleccionar al menos un cartón
-                    </p>
+                <p className="text-red-500 text-xs text-center mt-2 px-5">
+                    Debes seleccionar al menos un cartón
+                </p>
                 )}
 
-              <div className="text-center mt-5">
-                  <p className="p-2">Total a pagar:</p>
-                  <span className="font-bold text-2xl"> Bs {totalCostoCartones} </span>
-              </div>
+                {/* Total */}
+                <div className="flex items-center justify-between bg-[#f6bd0b]/10 border border-[#f6bd0b] rounded-xl mx-5 mt-5 px-5 py-4">
+                <span className="text-sm text-gray-500">Total a pagar</span>
+                <span className="text-2xl font-bold text-[#1a1b1f]">
+                    <span className="text-sm text-gray-500 mr-1">Bs</span>
+                    {totalCostoCartones}
+                </span>
+                </div>
 
-              <div className="max-w-sm mx-auto space-y-4 mb-5">
+                {/* Campos */}
+                <div className="max-w-sm mx-auto space-y-4 px-5 mt-5 mb-5">
 
-                  <div>
-                      <label className="block mb-1 font-medium text-slate-700">Nombre</label>
-                      <input 
-                          {...register("nombre", { required: "Nombre obligatorio" })}
-                          name='nombre'
-                          type="text"
-                          className="w-full px-3 py-2 rounded-lg shadow-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                      />
+                <div>
+                    <label className="block text-[10px] tracking-[1.5px] uppercase text-[#1a1b1f] mb-1.5">Nombre</label>
+                    <input
+                        {...register("nombre", { required: "Nombre obligatorio" })}
+                        name="nombre"
+                        type="text"
+                        className="w-full px-4 py-3 rounded-xl border border-black/10 text-[#1a1b1f] text-[15px] bg-[#fcfcfc]
+                                outline-none placeholder:text-gray-300 focus:border-[#f6bd0b] focus:ring-2 focus:ring-[#f6bd0b]/20 transition-colors"
+                    />
 
-                      {errors.nombre && (
-                        <p className="text-red-600 text-sm mt-1">{errors.nombre.message}</p>
-                      )}
-                  </div>
+                    {errors.nombre && (
+                        <p className="text-red-500 text-xs mt-1">{errors.nombre.message}</p>
+                    )}
+                </div>
 
-                  <div>
-                      <label className="block mb-1 font-medium text-slate-700">Apellido</label>
-                      <input 
-                          {...register("apellido", { required: "Apellido obligatorio" })}
-                          name='apellido'
-                          type="text"
-                          className="w-full px-3 py-2 rounded-lg shadow-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                      />
+                <div>
+                    <label className="block text-[10px] tracking-[1.5px] uppercase text-[#1a1b1f] mb-1.5">Apellido</label>
+                    <input
+                    {...register("apellido", { required: "Apellido obligatorio" })}
+                    name="apellido"
+                    type="text"
+                    className="w-full px-4 py-3 rounded-xl border border-black/10 text-[#1a1b1f] text-[15px] bg-[#fcfcfc]
+                                outline-none placeholder:text-gray-300 focus:border-[#f6bd0b] focus:ring-2 focus:ring-[#f6bd0b]/20 transition-colors"
+                    />
+                    {errors.apellido && (
+                    <p className="text-red-500 text-xs mt-1">{errors.apellido.message}</p>
+                    )}
+                </div>
 
-                      {errors.apellido && (
-                        <p className="text-red-600 text-sm mt-1">{errors.apellido.message}</p>
-                      )}
-                  </div>
+                <div>
+                    <label className="block text-[10px] tracking-[1.5px] uppercase text-[#1a1b1f] mb-1.5">Cédula</label>
+                    <input
+                    {...register("cedula", { required: "Cedula obligatoria" })}
+                    name="cedula"
+                    type="text"
+                    className="w-full px-4 py-3 rounded-xl border border-black/10 text-[#1a1b1f] text-[15px] bg-[#fcfcfc]
+                                outline-none placeholder:text-gray-300 focus:border-[#f6bd0b] focus:ring-2 focus:ring-[#f6bd0b]/20 transition-colors"
+                    />
+                    {errors.cedula && (
+                    <p className="text-red-500 text-xs mt-1">{errors.cedula.message}</p>
+                    )}
+                </div>
 
-                  <div>
-                      <label className="block mb-1 font-medium text-slate-700">Cedula</label>
-                      <input 
-                          {...register("cedula", { required: "Cedula obligatoria" })}
-                          name='cedula'
-                          type="text"
-                          className="w-full px-3 py-2 rounded-lg shadow-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                      />
-
-                      {errors.cedula && (
-                        <p className="text-red-600 text-sm mt-1">{errors.cedula.message}</p>
-                      )}
-                  </div>
-
-                  <div>
-                      <label className="block mb-1 font-medium text-slate-700">Teléfono</label>
-                      <input 
-                          {...register("telefono", { required: "Telefono Obligatorio" })}
-                          name='telefono'
-                          type="number"
-                          className="w-full px-3 py-2 rounded-lg shadow-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                      />
-                      {errors.telefono && (
-                          <p className="text-red-600 text-sm mt-1">{errors.telefono.message}</p>
-                       )}
-                  </div>
-
-              </div>
-          </div>
-      
-      </>
+                <div>
+                    <label className="block text-[10px] tracking-[1.5px] uppercase text-[#1a1b1f] mb-1.5">Teléfono</label>
+                    <input
+                    {...register("telefono", { required: "Telefono Obligatorio" })}
+                    name="telefono"
+                    type="number"
+                    inputMode="tel"
+                    className="w-full px-4 py-3 rounded-xl border border-black/10 text-[#1a1b1f] text-[15px] bg-[#fcfcfc]
+                                outline-none placeholder:text-gray-300 focus:border-[#f6bd0b] focus:ring-2 focus:ring-[#f6bd0b]/20 transition-colors"
+                    />
+                    {errors.telefono && (
+                    <p className="text-red-500 text-xs mt-1">{errors.telefono.message}</p>
+                    )}
+                </div>
+            </div>
+        </div>
+    </>
   );
 
 }

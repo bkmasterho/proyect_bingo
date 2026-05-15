@@ -138,29 +138,36 @@ export default function MultiStepForm() {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmitStep)}>
+        <form onSubmit={methods.handleSubmit(onSubmitStep)}>
 
-        <StepComponent />
+          <StepComponent />
 
-            <div className="flex max-w-2xl mx-auto mt-10">
+          <div className="flex max-w-3xl mx-auto mt-10 px-2">
 
-                {step > 0 && (
-                  <button 
-                    className="w-50 py-3 bg-sky-500 text-white font-bold rounded-lg hover:bg-sky-600 transition cursor-pointer"
-                    type="button" onClick={handleBack}>
-                      Atrás
-                  </button>
-                )}
+            {step > 0 && (
+              <button
+                type="button"
+                onClick={handleBack}
+                className="w-36 py-3 rounded-xl font-bold text-sm tracking-widest uppercase
+                          bg-[#fcfcfc] text-[#1a1b1f] border-2 border-[#1a1b1f]
+                          hover:bg-[#1a1b1f] hover:text-[#fcfcfc] transition-colors cursor-pointer"
+              >
+                Atrás
+              </button>
+            )}
 
-                <button 
-                  type="submit" 
-                  className="w-50 py-3 bg-sky-500 text-white font-bold rounded-lg hover:bg-sky-600 transition cursor-pointer ml-auto">
-                  {step === steps.length - 1 ? "Finalizar" : "Siguiente"}
-                </button>
+            <button
+              type="submit"
+              className="w-36 py-3 rounded-xl font-bold text-sm tracking-widest uppercase
+                        bg-[#f6bd0b] text-[#1a1b1f] border-2 border-[#f6bd0b]
+                        hover:bg-[#1a1b1f] hover:text-[#f6bd0b] transition-colors cursor-pointer ml-auto"
+            >
+              {step === steps.length - 1 ? "Finalizar" : "Siguiente"}
+            </button>
 
-            </div>
+          </div>
 
-      </form>
+        </form>
     </FormProvider>
   );
 }

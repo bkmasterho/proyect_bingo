@@ -131,4 +131,28 @@ class CompradorController extends Controller
         return CompraResource::collection($comprador->compras);
     }
 
+
+    public function buscarPorCedula(Request $request)
+
+    {   
+
+        $request->validate([
+            'cedula' => 'required|string',
+        ]);
+
+        $comprador = Comprador::where('cedula', $request->cedula)->first();
+
+        if (!$comprador) {
+            return response()->json([
+                'message' => 'No se encontró ningún comprador con esa cédula.'
+            ], 404);
+        }
+
+        // Reutiliza la misma lógica de compras()
+        $comprador->load(['compras.cartones', 'compras.comprador']);
+
+        return CompraResource::collection($comprador->compras);
+
+    }
+
 }
