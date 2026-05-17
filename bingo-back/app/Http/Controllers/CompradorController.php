@@ -25,7 +25,8 @@ class CompradorController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     */
+    */
+
     public function store(CompradorRequest $request)
     {
         $data = $request->validated();
@@ -34,7 +35,7 @@ class CompradorController extends Controller
         DB::beginTransaction();
 
         try {
-            // 1️⃣ Crear comprador
+            //Crear comprador
             $comprador = Comprador::firstOrCreate(
                 ['cedula' => $data['cedula']],
                 [
@@ -44,13 +45,13 @@ class CompradorController extends Controller
                 ]
             );
 
-            // 2️⃣ Crear compra sin imagen primero
+            //Crear compra sin imagen primero
             $compra = $comprador->compras()->create([
                 'sorteo_id' => $sorteoId,
                 'fecha' => now(),
             ]);
 
-            // 3️⃣ Subir archivo con nombre cedula_idcompra
+            //Subir archivo con nombre cedula_idcompra
             if ($request->hasFile('img_compra')) {
                 $extension = $request->file('img_compra')->getClientOriginalExtension();
                 $nombreArchivo = $comprador->cedula . '_' . $compra->id . '.' . $extension;
@@ -62,7 +63,7 @@ class CompradorController extends Controller
                 $compra->update(['img_compra' => $rutaArchivo]);
             }
 
-            // 4️⃣ Asociar cartones
+            //Asociar cartones
             $cartonIds = Carton::whereIn('numero_carton', $data['cartones'])
                 ->pluck('id')
                 ->toArray();
@@ -133,7 +134,6 @@ class CompradorController extends Controller
 
 
     public function buscarPorCedula(Request $request)
-
     {   
 
         $request->validate([

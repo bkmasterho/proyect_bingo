@@ -8,6 +8,17 @@ const clienteAxios = axios.create({
         'X-Requested-With': 'XMLHttpRequest'
     },
     withCredentials: true
-})
+});
 
-export default clienteAxios
+
+// Interceptor que detecta FormData y elimina el Content-Type
+// para que el navegador lo setee solo con el boundary correcto
+
+clienteAxios.interceptors.request.use((config) => {
+    if (config.data instanceof FormData) {
+        delete config.headers['Content-Type'];
+    }
+    return config;
+});
+
+export default clienteAxios;
