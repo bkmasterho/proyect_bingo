@@ -10,32 +10,33 @@ export default function CompraCarton2() {
   const { register, setValue, getValues, clearErrors, formState: { errors } } = useFormContext();
   const { cartonesSelect, setCartonesSelect, cartones } = useBingo();
   const [ modalAbierto, setModalAbierto ] = useState(false);
+  const [ imgModal, setImgModal ] = useState(null);
   
-  const cartonsSeleccion = (valor) => {
+  console.log("Los Cartones CompraCarton2", cartones)
 
+  const cartonsSeleccion = (valor) => { 
     const cantidadCartones = getValues("cantidadCartones");
-  
     console.log("cantidadCartones2", cantidadCartones)
-
+    
      setCartonesSelect(prev => {
 
-      const nuevoArray = prev.includes(valor)
-        ? prev.filter(num => num !== valor)
-        : [...prev, valor];
+        const nuevoArray = prev.includes(valor)
+          ? prev.filter(num => num !== valor)
+          : [...prev, valor];
 
-      //Guardo en mi RH
-      setValue("cartones", nuevoArray, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
+        //Guardo en mi RH
+        setValue("cartones", nuevoArray, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
 
-      // Limpiar error si la selección ya coincide
-      if (nuevoArray.length === cantidadCartones) {
-        clearErrors("cartones");
-      }
+        // Limpiar error si la selección ya coincide
+        if (nuevoArray.length === cantidadCartones) {
+          clearErrors("cartones");
+        }
 
-      //Regreso mi array que se va guardar en cartonesSelect
-      return nuevoArray;
+        //Regreso mi array que se va guardar en cartonesSelect
+        return nuevoArray;
     });
 
   }
@@ -59,7 +60,6 @@ export default function CompraCarton2() {
             {cartones.data.map((valor, index) => {
 
               let numeroCarton=valor.numero_carton;
-
               const estaSeleccionado = cartonesSelect.includes(numeroCarton);
 
               return (
@@ -82,7 +82,10 @@ export default function CompraCarton2() {
                                 bg-[#1a1b1f] text-[#fcfcfc] rounded-full border border-[#1a1b1f]
                                 hover:bg-[#f6bd0b] hover:text-[#1a1b1f] hover:border-[#f6bd0b] transition-colors"
                       type="button"
-                      onClick={() => setModalAbierto(true)}
+                      onClick={() => {
+                        setImgModal(valor.img_carton);
+                        setModalAbierto(true);
+                      }}
                   >
                     Ver
                   </button>
@@ -102,7 +105,7 @@ export default function CompraCarton2() {
             overlayClassName="modal-overlay"
             closeTimeoutMS={250}
           >
-            <Modal onClose={() => setModalAbierto(false)} />
+            <Modal onClose={() => setModalAbierto(false)} imgCarton={imgModal} />
           </ModalCarton>
         }
 

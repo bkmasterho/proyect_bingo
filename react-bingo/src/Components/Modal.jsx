@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Modal({onClose}) {
+export default function Modal({ onClose, imgCarton }) {
   return (
     <>
       <button
@@ -12,7 +12,11 @@ export default function Modal({onClose}) {
         ✕
       </button>
 
-      <img src="" alt="" className="w-full h-full object-contain rounded-xl" />
+      <img
+        src={`${import.meta.env.VITE_API_URL}/storage/cartones/${imgCarton}`}
+        alt={imgCarton}
+        className="w-full h-full object-contain rounded-xl"
+      />
     </>
   )
 }

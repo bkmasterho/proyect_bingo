@@ -13,8 +13,6 @@ const BingoProvider = ({children}) => {
       mutateCartones
     } = useCartones()
 
-    console.log("Los Cartones", cartones)
-
     const [ cantCartones, setCantCartones ] = useState(0);
     const [ cartonesSelect, setCartonesSelect] = useState([]);
     const [ totalCostoCartones, setTotalCostoCartones ] = useState(0)
@@ -22,6 +20,7 @@ const BingoProvider = ({children}) => {
     return (
           <BingoContext.Provider
               value={{
+
                   //Listado Cartones
                   cartones,
                   cartonesLoading,
@@ -35,6 +34,7 @@ const BingoProvider = ({children}) => {
                   setCartonesSelect,
                   totalCostoCartones,
                   setTotalCostoCartones
+                  
               }}
           >{children}</BingoContext.Provider>
     )

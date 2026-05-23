@@ -54,8 +54,6 @@ export default function MultiStepForm() {
 
         methods.clearErrors("cartones"); // Limpio errores por si acaso.
 
-        console.log("Los cartonessss",cartones)
-
         if (!cartones || cartones.length !== cantidadCartones) {
             methods.setError("cartones", {
               type: "manual",
